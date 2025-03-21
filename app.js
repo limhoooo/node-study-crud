@@ -34,5 +34,5 @@ app.set("port", process.env.PORT || 3000);
 app.use("/todo", todoRouter);
 
 app.listen(app.get("port"), () => {
-  console.log(`${app.get("port")} 가동중`);
+  console.log(`${app.get("port")} 가동중!!`);
 });
