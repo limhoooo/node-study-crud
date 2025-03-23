@@ -1,38 +1,53 @@
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
-const accessLogStream = require("./utils/log");
-const todoRouter = require("./routes/todo.js");
+const nunjucks = require("nunjucks");
+
+const { sequelize } = require("./models");
+// const indexRouter = require("./routes");
+// const usersRouter = require("./routes/users");
+// const commentsRouter = require("./routes/comments");
+
+// todo
+
 const app = express();
+app.set("port", process.env.PORT || 3001);
+app.set("view engine", "html");
+nunjucks.configure("views", {
+  express: app,
+  watch: true,
+});
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
-app.use(morgan("combined", { stream: accessLogStream }));
-
-app.use("/", express.static(path.join(__dirname, "public")));
-
-// app.use("/", (req, res, next) => {
-//   if(req.session.id) {
-//     express.static(path.join(__dirname, "public"))(req, res, next)
-//   }else {
-//     next()
-//   }
-// });
-
+app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// app.use("/", indexRouter);
+// app.use("/users", usersRouter);
+// app.use("/comments", commentsRouter);
 
 app.use((req, res, next) => {
-  console.log("미들웨어 작동");
-  next();
+  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  error.status = 404;
+  next(error);
 });
 
-app.set("port", process.env.PORT || 3000);
-
-// static 으로 대체
-// app.get("/", (req, res, next) => {
-//   res.sendFile(path.join(__dirname, "index.html"));
-// });
-
-app.use("/todo", todoRouter);
+app.use((err, req, res, next) => {
+  res.locals.message = err.message;
+  res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
+  res.status(err.status || 500);
+  res.render("error");
+});
 
 app.listen(app.get("port"), () => {
-  console.log(`${app.get("port")} 가동중!!`);
+  console.log(app.get("port"), "번 포트에서 대기 중");
 });
