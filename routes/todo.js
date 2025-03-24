@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
+const { Comment } = require("../models"); // Comment 모델 가져오기
 
 const router = express.Router();
 
@@ -19,8 +20,16 @@ const writeDB = async (data) => {
 };
 
 router.get("/", async (req, res) => {
-  const fileJson = await readDB();
-  res.status(200).json(fileJson);
+  // const fileJson = await readDB();
+  const fileJson = await Comment.findAll({});
+  const comments = fileJson.map((comment) => ({
+    id: comment.id,
+    name: comment.comment,
+    date: comment.created_at,
+  }));
+
+  console.log(comments);
+  res.status(200).json(comments);
 });
 
 router.post("/", async (req, res) => {
@@ -28,8 +37,13 @@ router.post("/", async (req, res) => {
     const fileJson = await readDB();
     const id = Date.now();
     let fileJsonList = [...fileJson, { ...req.body, id }];
+    // await writeDB(fileJsonList);
+    await Comment.create({
+      comment: req.body.name,
+      commenter: 1,
+    });
 
-    await writeDB(fileJsonList);
+    console.log();
     res.json({ message: "Todo added", todo: req.body });
   } catch (error) {
     res.status(500).json({ error: "Failed to update file" });
