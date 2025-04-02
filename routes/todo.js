@@ -37,11 +37,11 @@ router.post("/", async (req, res) => {
     const fileJson = await readDB();
     const id = Date.now();
     let fileJsonList = [...fileJson, { ...req.body, id }];
-    // await writeDB(fileJsonList);
-    await Comment.create({
-      comment: req.body.name,
-      commenter: 1,
-    });
+    await writeDB(fileJsonList);
+    // await Comment.create({
+    //   comment: req.body.name,
+    //   commenter: 1,
+    // });
 
     console.log();
     res.json({ message: "Todo added", todo: req.body });
