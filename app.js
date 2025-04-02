@@ -13,6 +13,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use("/todo", todoRouter);
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log("3000 포트 서버 실행");
 });
