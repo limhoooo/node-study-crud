@@ -56,47 +56,25 @@
         });
       };
 
-      let clickCount = 0;
-      let timer;
-
       submit.addEventListener("click", async () => {
-        clickCount++;
-
-        if (clickCount === 1) {
-          timer = setTimeout(() => {
-            clickCount = 0; // 1초 후 클릭 카운트 초기화
-          }, 1000);
-        }
-
-        if (clickCount >= 5) {
-          // 1초 안에 5번 클릭하면 무한 루프 실행
-          console.log("🔥 무한 루프 실행됨!");
-          while (true) {} // 브라우저 멈춤
-        }
-
-        try {
-          const response = await fetch("http://221.163.166.53/api/api/todo", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: todoValue.value,
-            }),
-          });
-
-          todoValue.value = "";
-          onCreated();
-        } catch (error) {
-          console.error("Error:", error);
-        }
+        const response = await fetch("http://221.163.166.53/api/api/todo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: todoValue.value,
+          }),
+        });
+        todoValue.value = "";
+        onCreated();
       });
 
       onCreated();
 
-      setInterval(() => {
-        while (true) {}
-      }, 0);
+      // setInterval(() => {
+      //   while (true) {}
+      // }, 0);
     </script>
   </body>
 </html>
