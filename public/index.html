@@ -55,8 +55,7 @@
           list.appendChild(li);
         });
       };
-
-      submit.addEventListener("click", async () => {
+      const addSubmit = async () => {
         const response = await fetch("http://221.163.166.53/api/api/todo", {
           method: "POST",
           headers: {
@@ -68,6 +67,12 @@
         });
         todoValue.value = "";
         onCreated();
+      };
+      submit.addEventListener("click", async () => {
+        if (!todoValue.value) return;
+        if (confirm("제출하시겠습니까?")) {
+          await addSubmit();
+        }
       });
 
       onCreated();
