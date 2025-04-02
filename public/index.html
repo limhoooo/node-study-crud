@@ -25,7 +25,7 @@
       };
 
       const getList = async () => {
-        const response = await fetch("http://localhost:3000/api/api/todo");
+        const response = await fetch("http://221.163.166.53/api/api/todo");
         return await response.json();
       };
 
@@ -39,7 +39,7 @@
           const button = document.createElement("button");
           button.textContent = "x"; // 버튼 추가
           button.addEventListener("click", async () => {
-            const response = await fetch("http://localhost:3000/api/api/todo", {
+            const response = await fetch("http://221.163.166.53/api/api/todo", {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@
       };
 
       submit.addEventListener("click", async () => {
-        const response = await fetch("http://localhost:3000/api/api/todo", {
+        const response = await fetch("http://221.163.166.53/api/api/todo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
