@@ -20,12 +20,12 @@ const writeDB = async (data) => {
 };
 
 router.get("/", async (req, res) => {
-  // const fileJson = await readDB();
-  const fileJson = await Comment.findAll({});
+  const fileJson = await readDB();
+  // const fileJson = await Comment.findAll({});
+  console.log(fileJson);
   const comments = fileJson.map((comment) => ({
     id: comment.id,
-    name: comment.comment,
-    date: comment.created_at,
+    name: comment.name,
   }));
 
   console.log(comments);
