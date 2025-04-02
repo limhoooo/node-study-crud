@@ -11,8 +11,8 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
-app.use("/api/todo", todoRouter);
+app.use("/todo", todoRouter);
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log("3000 포트 서버 실행");
 });

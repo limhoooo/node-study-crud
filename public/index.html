@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>test</title>
+    <title>testsdfbdsf</title>
   </head>
   <body>
     <div>
       <input type="text" id="todoValue" />
-      <button id="addBtn">추가</button>
+      <button id="addBtn">추가버튼111~~</button>
       <ul id="list"></ul>
     </div>
 
@@ -25,7 +25,7 @@
       };
 
       const getList = async () => {
-        const response = await fetch("http://localhost:3000/todo");
+        const response = await fetch("http://localhost:3000/api/todo");
         return await response.json();
       };
 
@@ -39,7 +39,7 @@
           const button = document.createElement("button");
           button.textContent = "x"; // 버튼 추가
           button.addEventListener("click", async () => {
-            const response = await fetch("http://localhost:3000/todo", {
+            const response = await fetch("http://localhost:3000/api/todo", {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@
       };
 
       submit.addEventListener("click", async () => {
-        const response = await fetch("http://localhost:3000/todo", {
+        const response = await fetch("http://localhost:3000/api/todo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
