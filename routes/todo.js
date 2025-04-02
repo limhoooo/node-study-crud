@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
   const comments = fileJson.map((comment) => ({
     id: comment.id,
     name: comment.name,
+    ip: comment.ip,
   }));
 
   console.log(comments);
