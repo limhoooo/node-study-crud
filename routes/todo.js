@@ -20,9 +20,8 @@ const writeDB = async (data) => {
 };
 
 router.get("/", async (req, res) => {
-  const fileJson = await readDB();
-  // const fileJson = await Comment.findAll({});
-  console.log(fileJson);
+  // const fileJson = await readDB();
+  const fileJson = await Comment.findAll({});
   const comments = fileJson.map((comment) => ({
     id: comment.id,
     name: comment.name,
@@ -35,16 +34,15 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const fileJson = await readDB();
-    const id = Date.now();
-    let fileJsonList = [...fileJson, { ...req.body, id }];
-    await writeDB(fileJsonList);
-    // await Comment.create({
-    //   comment: req.body.name,
-    //   commenter: 1,
-    // });
+    // const fileJson = await readDB();
+    // const id = Date.now();
+    // let fileJsonList = [...fileJson, { ...req.body, id }];
+    // await writeDB(fileJsonList);
+    await Comment.create({
+      comment: req.body.name,
+      commenter: 1,
+    });
 
-    console.log();
     res.json({ message: "Todo added", todo: req.body });
   } catch (error) {
     res.status(500).json({ error: "Failed to update file" });
