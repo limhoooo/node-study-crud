@@ -58,11 +58,21 @@ router.delete("/", async (req, res) => {
   // const fileJson = await readDB();
   // const filterList = fileJson.filter((item) => item.id !== req.body.id);
   // await writeDB(filterList);
+  const findComment = await Comment.findAll({
+    attributes: ["comment", "ip"],
+    where: {
+      id: req.body.id,
+    },
+  });
+
+  if (findComment[0].ip !== requestIp.getClientIp(req)) {
+    return res.status(500).json({ message: "다른사용자의 댓글입니다 ㅋㅋ" });
+  }
 
   await Comment.destroy({
     where: { id: req.body.id },
   });
-  res.json({ message: "Todo delete", todo: req.body });
+  res.json({ message: "삭제되었습니다", todo: req.body });
 });
 
 module.exports = router;
