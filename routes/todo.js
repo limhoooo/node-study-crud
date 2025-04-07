@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
-const ip = require("ip");
+const requestIp = require("request-ip");
 
 const { Comment } = require("../models"); // Comment 모델 가져오기
 
@@ -37,9 +37,10 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    console.log(requestIp.getClientIp(req));
     await Comment.create({
       comment: req.body.name,
-      ip: ip.address(),
+      ip: requestIp.getClientIp(req),
     });
 
     res.json({ message: "Todo added", todo: req.body });
