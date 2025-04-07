@@ -1,6 +1,8 @@
 const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
+const ip = require("ip");
+
 const { Comment } = require("../models"); // Comment 모델 가져오기
 
 const router = express.Router();
@@ -21,10 +23,11 @@ const writeDB = async (data) => {
 
 router.get("/", async (req, res) => {
   // const fileJson = await readDB();
+
   const fileJson = await Comment.findAll({});
   const comments = fileJson.map((comment) => ({
     id: comment.id,
-    name: comment.name,
+    name: comment.comment,
     ip: comment.ip,
   }));
 
@@ -34,25 +37,26 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    // const fileJson = await readDB();
-    // const id = Date.now();
-    // let fileJsonList = [...fileJson, { ...req.body, id }];
-    // await writeDB(fileJsonList);
     await Comment.create({
       comment: req.body.name,
-      commenter: 1,
+      ip: ip.address(),
     });
 
     res.json({ message: "Todo added", todo: req.body });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to update file" });
   }
 });
 
 router.delete("/", async (req, res) => {
-  const fileJson = await readDB();
-  const filterList = fileJson.filter((item) => item.id !== req.body.id);
-  await writeDB(filterList);
+  // const fileJson = await readDB();
+  // const filterList = fileJson.filter((item) => item.id !== req.body.id);
+  // await writeDB(filterList);
+
+  await Comment.destroy({
+    where: { id: req.body.id },
+  });
   res.json({ message: "Todo delete", todo: req.body });
 });
 
