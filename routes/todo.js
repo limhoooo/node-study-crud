@@ -31,13 +31,17 @@ router.get("/", async (req, res) => {
     ip: comment.ip,
   }));
 
-  console.log(comments);
   res.status(200).json(comments);
 });
 
 router.post("/", async (req, res) => {
   try {
-    console.log(requestIp.getClientIp(req));
+    const comment = req.body.name;
+
+    if (!comment || comment.trim() === "") {
+      return res.status(500).json({ error: "Comment cannot be empty" });
+    }
+
     await Comment.create({
       comment: req.body.name,
       ip: requestIp.getClientIp(req),
