@@ -1,0 +1,14 @@
+site_name: "node-study-crud"
+site_description: "Main documentation for the node-study-crud ㅎㅇ"
+repo_url: https://github.com/limhoooo/node-study-crud
+# 브런치 명
+edit_uri: edit/main/docs
+
+# 사용할 html 플러그인?
+plugins:
+  - techdocs-core
+
+# For sidebar navigation on https://backstage.io/, see `microsite/sidebars.json`
+nav:
+  - Overview:
+      - Getting started: "docs/index.md"
