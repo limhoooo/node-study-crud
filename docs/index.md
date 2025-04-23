@@ -4,7 +4,7 @@ This application has two endpoints:
 
 - `/api/v1/info`
 - `/api/v1/healthz`
-- ㅋㅋㅋㅋ
+- sdaasddasdasads
 
 Here you could expand on what each of these endpoints do.
 
